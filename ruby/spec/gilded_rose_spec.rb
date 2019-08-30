@@ -14,14 +14,40 @@ describe GildedRose do
       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -1
     end
 
+    it "will not allow the quality to be negative" do
+      items = [Item.new("Elixir of the Mongoose", 15, 0)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+    end
+
+
     it "increases the quality of Aged Brie" do
       items = [Item.new("Aged Brie", 15, 5)]
       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 1
     end
 
-    it "increases the quality of Sulfuras, Hand of Ragnaros" do
+    it "does not change the quality of Sulfuras, Hand of Ragnaros" do
       items = [Item.new("Sulfuras, Hand of Ragnaros", 15, 5)]
       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+    end
+
+    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 1 if there are more than ten days left" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 5)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 01
+    end
+
+    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 2 if there are  6-10 days left" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 9, 5)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 2
+    end
+
+    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 3 if there are > 5 days left" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 4, 5)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 3
+    end
+
+    it "reduces the quality of Backstage passes to a TAFKAL80ETC concert to 0 after the concert" do
+      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 5)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -5
     end
   end
 
