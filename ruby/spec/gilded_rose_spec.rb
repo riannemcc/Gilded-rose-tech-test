@@ -28,10 +28,21 @@ describe GildedRose do
         @item = Item.new("Aged Brie", 15, 5)
       end
 
-      it "increases the quality" do
+      it "increases the quality by one" do
         items = [@item]
         expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 1
       end
+
+      it 'increases Aged Brie by 2 after sell_in date' do
+       items = [Item.new("Aged Brie", 0, 15)]
+       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 2
+     end
+
+     it 'cannot increase quality above 50' do
+       items = [@item]
+       100.times { GildedRose.new(items).update_quality() }
+       expect(items[0].quality).to eq 50
+     end
     end
 
     context "Sulfuras, Hand of Ragnaros" do
