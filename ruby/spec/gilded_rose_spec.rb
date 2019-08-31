@@ -55,6 +55,12 @@ describe GildedRose do
         items = [@item]
         expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
       end
+
+      it 'does not change Sulfuras sell_in date' do
+      items = [@item]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq 0
+    end
     end
   end
 
