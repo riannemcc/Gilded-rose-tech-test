@@ -69,7 +69,7 @@ describe GildedRose do
 
       it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 1 if there are more than ten days left" do
         items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 5)]
-        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 01
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 1
       end
 
       it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 2 if there are  6-10 days left" do
