@@ -54,6 +54,14 @@ describe GildedRose do
     end
   end
 
+  describe "sellin" do
+
+    it "reduces the quality twice as fast if the sellin date has passed" do
+      items = [Item.new("Elixir of the Mongoose", 0, 8)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -2
+    end
+  end
+
 end
 
 # things to test
