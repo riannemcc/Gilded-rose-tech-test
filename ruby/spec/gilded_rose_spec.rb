@@ -29,6 +29,9 @@ describe GildedRose do
       items = [Item.new("Sulfuras, Hand of Ragnaros", 15, 5)]
       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
     end
+  end
+
+  describe 'Backstage passes' do
 
     it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 1 if there are more than ten days left" do
       items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 5)]
