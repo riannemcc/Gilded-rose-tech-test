@@ -3,33 +3,50 @@ require 'gilded_rose'
 describe GildedRose do
 
   describe "#update_quality" do
-    it "does not change the name" do
-      items = [Item.new("foo", 0, 0)]
-      GildedRose.new(items).update_quality()
-      expect(items[0].name).to eq "foo"
+
+    context "standard item" do
+
+      before(:each) do
+        @item = Item.new("standard", 5, 50)
+      end
+
+      it "does not change the name" do
+        items = [@item]
+        GildedRose.new(items).update_quality()
+        expect(items[0].name).to eq "standard"
+      end
+
+      it "reduces the quality by 1" do
+        items = [@item]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -1
+      end
     end
 
-    it "reduces the quality by 1" do
-      items = [Item.new("Elixir of the Mongoose", 15, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -1
+    context "Aged Brie" do
+
+      before(:each) do
+        @item = Item.new("Aged Brie", 15, 5)
+      end
+
+      it "increases the quality" do
+        items = [@item]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 1
+      end
     end
 
-    it "will not allow the quality to be negative" do
-      items = [Item.new("Elixir of the Mongoose", 15, 0)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
-    end
+    context "Sulfuras, Hand of Ragnaros" do
 
+      before(:each) do
+        @item = Item.new("Sulfuras, Hand of Ragnaros", 0, 80)
+      end
 
-    it "increases the quality of Aged Brie" do
-      items = [Item.new("Aged Brie", 15, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 1
-    end
-
-    it "does not change the quality of Sulfuras, Hand of Ragnaros" do
-      items = [Item.new("Sulfuras, Hand of Ragnaros", 15, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+      it "does not change the quality of Sulfuras, Hand of Ragnaros" do
+        items = [@item]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+      end
     end
   end
+
 
   describe 'Backstage passes' do
 
@@ -60,8 +77,12 @@ describe GildedRose do
       items = [Item.new("Elixir of the Mongoose", 0, 8)]
       expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -2
     end
-  end
 
+    it "will not allow the quality to be negative" do
+      items = [Item.new("Elixir of the Mongoose", 15, 0)]
+      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+    end
+  end
 end
 
 # things to test
@@ -71,4 +92,5 @@ end
 # that backstage passes if sell less than 11, quality less 50, increase specials by 1
 # fir sell in less 6 and quality less 50, increase quality by 1
 # for everything but sulfurus, sell in drecrease by 1 in quality is more than 0
-#
+# need to raise an error for value over 50?
+# raise error if sulph has sellin value?

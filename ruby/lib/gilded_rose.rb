@@ -2,8 +2,6 @@ class GildedRose
 
   def initialize(items)
     @items = items
-    # is items an array?
-    # initilaizes the store with items that are passed as argument,
     # does it need to be initialized with anything else?
   end
 
