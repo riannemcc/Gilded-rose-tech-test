@@ -7,7 +7,7 @@ describe GildedRose do
     context "standard item" do
 
       before(:each) do
-        @item = Item.new("standard", 5, 50)
+        @item = Item.new("standard", 5, 25)
       end
 
       it "does not change the name" do
@@ -107,13 +107,3 @@ describe GildedRose do
       end
     end
 end
-
-# things to test
-# that item quality doesnt go below 0
-# that quality doesnt decrease if three special products
-# that special items cant increase more than 50
-# that backstage passes if sell less than 11, quality less 50, increase specials by 1
-# fir sell in less 6 and quality less 50, increase quality by 1
-# for everything but sulfurus, sell in drecrease by 1 in quality is more than 0
-# need to raise an error for value over 50?
-# raise error if sulph has sellin value?
