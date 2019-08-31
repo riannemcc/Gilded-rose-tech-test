@@ -48,41 +48,47 @@ describe GildedRose do
   end
 
 
-  describe 'Backstage passes' do
+    context "Backstage passes" do
 
-    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 1 if there are more than ten days left" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 01
+      it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 1 if there are more than ten days left" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 5)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 01
+      end
+
+      it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 2 if there are  6-10 days left" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 9, 5)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 2
+      end
+
+      it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 3 if there are > 5 days left" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 4, 5)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 3
+      end
+
+      it "reduces the quality of Backstage passes to a TAFKAL80ETC concert to 0 after the concert" do
+        items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 5)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -5
+      end
     end
 
-    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 2 if there are  6-10 days left" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 9, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 2
+    describe "sellin" do
+
+      it "reduces sell_in by 1" do
+      items = [Item.new("Elixir of the Mongoose", 10, 8)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].sell_in).to eq 9
     end
 
-    it "increases the quality of Backstage passes to a TAFKAL80ETC concert by 3 if there are > 5 days left" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 4, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 3
-    end
+      it "reduces the quality twice as fast if the sellin date has passed" do
+        items = [Item.new("Elixir of the Mongoose", 0, 8)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -2
+      end
 
-    it "reduces the quality of Backstage passes to a TAFKAL80ETC concert to 0 after the concert" do
-      items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 0, 5)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -5
+      it "will not allow the quality to be negative" do
+        items = [Item.new("Elixir of the Mongoose", 15, 0)]
+        expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
+      end
     end
-  end
-
-  describe "sellin" do
-
-    it "reduces the quality twice as fast if the sellin date has passed" do
-      items = [Item.new("Elixir of the Mongoose", 0, 8)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by -2
-    end
-
-    it "will not allow the quality to be negative" do
-      items = [Item.new("Elixir of the Mongoose", 15, 0)]
-      expect{ GildedRose.new(items).update_quality() }.to change { items[0].quality }.by 0
-    end
-  end
 end
 
 # things to test
